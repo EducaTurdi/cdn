@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CDN Painel</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #0d1117; color: #c9d1d9; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .container { background-color: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; width: 100%; max-width: 500px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        h2 { margin-top: 0; color: #58a6ff; text-align: center; }
+        .field { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-size: 14px; font-weight: 600; }
+        input[type="text"], input[type="file"] { width: 100%; padding: 10px; border: 1px solid #30363d; border-radius: 6px; background-color: #0d1117; color: #c9d1d9; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background-color: #238636; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px; margin-top: 5px; }
+        button:hover { background-color: #2ea44f; }
+        .btn-del { background-color: #da3637; }
+        .btn-del:hover { background-color: #b62b2c; }
+        .btn-copy { background-color: #21262d; border: 1px solid #30363d; }
+        .btn-copy:hover { background-color: #30363d; }
+        .status { margin-top: 15px; padding: 10px; border-radius: 6px; display: none; font-size: 13px; text-align: center; word-break: break-all; }
+        .success { background-color: rgba(56,139,60,0.15); color: #3fb950; border: 1px solid rgba(56,139,60,0.4); }
+        .error { background-color: rgba(248,81,73,0.15); color: #f85149; border: 1px solid rgba(248,81,73,0.4); }
+        hr { border: 0; border-top: 1px solid #30363d; margin: 20px 0; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>CDN Control Panel</h2>
+    <div class="field">
+        <label>Token:</label>
+        <input type="text" id="tkn" placeholder="...">
+    </div>
+    <hr>
+    <div class="field">
+        <label>Upload:</label>
+        <input type="file" id="fileInput">
+        <button id="upBtn">Upload</button>
+    </div>
+    <hr>
+    <div class="field">
+        <label>File:</label>
+        <input type="text" id="fileName" placeholder="...">
+        <button id="cpBtn" class="btn-copy">Copy</button>
+        <button id="delBtn" class="btn-del">Delete</button>
+    </div>
+    <div id="msg" class="status"></div>
+</div>
+
+<script>
+const _0x51c2=['\x63\x6C\x69\x63\x6B','\x61\x64\x64\x45\x76\x65\x6E\x74\x4C\x69\x73\x74\x65\x6E\x65\x72','\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64','\x76\x61\x6C\x75\x65','\x66\x69\x6C\x65\x73','\x6E\x61\x6D\x65','\x72\x65\x61\x64\x41\x73\x44\x61\x74\x61\x55\x52\x4C','\x6F\x6E\x6C\x6F\x61\x64','\x73\x70\x6C\x69\x74','\x68\x74\x74\x70\x73\x3A\x2F\x2F\x61\x70\x69\x2E\x67\x69\x74\x68\x75\x62\x2E\x63\x6F\x6D\x2F\x72\x65\x70\x6F\x73\x2F','\x2F\x63\x6F\x6E\x74\x65\x6E\x74\x73\x2F','\x41\x75\x74\x68\x6F\x72\x69\x7A\x61\x74\x69\x6F\x6E','\x62\x65\x61\x72\x65\x72\x20','\x61\x63\x63\x65\x70\x74','\x61\x70\x70\x6C\x69\x63\x61\x74\x69\x6F\x6E\x2F\x76\x6E\x64\x2E\x67\x69\x74\x68\x75\x62\x2B\x6A\x73\x6F\x6E','\x50\x55\x54','\x73\x74\x72\x69\x6E\x67\x69\x66\x79','\x2E\x2E\x2E','\x73\x74\x79\x6C\x65','\x64\x69\x73\x70\x6C\x61\x79','\x62\x6C\x6F\x63\x6B','\x63\x6C\x61\x73\x73\x4E\x61\x6D\x65','\x73\x74\x61\x74\x75\x73\x20\x73\x75\x63\x63\x65\x73\x73','\x69\x6E\x6E\x65\x72\x48\x54\x4D\x4C','\x4F\x4B\x20\x3A\x20','\x2E\x67\x69\x74\x68\x75\x62\x2E\x69\x6F\x2F\x63\x64\x6E\x2F','\x73\x74\x61\x74\x75\x73\x20\x65\x72\x72\x6F\x72','\x45\x52\x52\x20\x3A\x20','\x6A\x73\x6F\x6E','\x44\x45\x4C\x45\x54\x45','\x44\x45\x4C\x20\x4F\x4B','\x4E\x47','\x77\x72\x69\x74\x65\x54\x65\x78\x74','\x63\x6C\x69\x70\x62\x6F\x61\x72\x64','\x6E\x61\x76\x69\x67\x61\x74\x6F\x72','\x43\x50\x59'];const _0x10ae=window;const _0x30bd=function(_0x1880fb){const _0x51c201=_0x10ae;const _0x5608d0=document[_0x51c201(0x2)](_0x1880fb);return _0x5608d0;};function _0x2bc8(_0x221371,_0x3bc141){const _0x16b08d=_0x10ae;const _0x4d326f=_0x30bd('\x6D\x73\x67');_0x4d326f[_0x16b08d(0x12)][_0x16b08d(0x13)]=_0x16b08d(0x14);_0x4d326f[_0x16b08d(0x15)]=_0x3bc141?_0x16b08d(0x16):_0x16b08d(0x1A);_0x4d326f[_0x16b08d(0x17)]=_0x221371;}async function _0x46da(_0x39f506,_0x2f15f0){const _0x27246f=_0x10ae;try{const _0x2a987d=await fetch(_0x39f506,{"headers":{"Authorization":_0x27246f(0xC)+_0x2f15f0}});if(_0x2a987d['\x6F\x6B']){const _0x1a87bf=await _0x2a987d[_0x27246f(0x1C)]();return _0x1a87bf['\x73\x68\x61'];}}catch(_0x5c423f){}return null;}_0x10ae['\x6F\x6E\x6C\x6F\x61\x64']=function(){const _0x524b81=_0x10ae;const _0x48e9a6=window['\x6C\x6F\x63\x61\x74\x69\x6F\x6E']['\x68\x6F\x73\x74\x6E\x61\x6D\x65'][_0x524b81(0x8)]('\x2E')[0x0];const _0x5e0f5b=_0x30bd('\x75\x70\x42\x74\x6E');const _0x17bc4d=_0x30bd('\x64\x65\x6C\x42\x74\x6E');const _0x240bf3=_0x30bd('\x63\x70\x42\x74\x6E');_0x5e0f5b[_0x524b81(0x1)](_0x524b81(0x0),async()=>{const _0x1d368e=_0x524b81;const _0x590890=_0x30bd('\x74\x6B\x6E')[_0x1d368e(0x3)];const _0x3b11fc=_0x30bd('\x66\x69\x6C\x65\x49\x6E\x70\x75\x74')[_0x1d368e(0x4)][0x0];if(!_0x590890||!_0x3b11fc) return;_0x2bc8(_0x1d368e(0x11),true);const _0x4da918=new FileReader();_0x4da918[_0x1d368e(0x6)](_0x3b11fc);_0x4da918[_0x1d368e(0x7)]=async()=>{const _0x444b0d=_0x1d368e;const _0x2284c1=_0x4da918['\x72\x65\x73\x75\x6C\x74'][_0x444b0d(0x8)]('\x2C')[0x1];const _0x5ca51d=_0x444b0d(0x9)+_0x48e9a6+'\x2F\x63\x64\x6E'+_0x444b0d(0xA)+_0x3b11fc[_0x444b0d(0x5)];const _0x5e0df7=await _0x46da(_0x5ca51d,_0x590890);const _0x2642be={"message":"up","content":_0x2284c1};if(_0x5e0df7) _0x2642be['\x73\x68\x61']=_0x5e0df7;try{const _0x5cc5d8=await fetch(_0x5ca51d,{"method":_0x444b0d(0xF),"headers":{"Authorization":_0x444b0d(0xC)+_0x590890,"Accept":_0x444b0d(0xE)},"body":JSON[_0x444b0d(0x10)](_0x2642be)});if(_0x5cc5d8['\x6F\x6B']){const _0x38e2d2='\x68\x74\x74\x70\x73\x3A\x2F\x2F'+_0x48e9a6+_0x444b0d(0x19)+_0x3b11fc[_0x444b0d(0x5)];_0x2bc8(_0x444b0d(0x18)+'\x3C\x61\x20\x68\x72\x65\x66\x3D\x22'+_0x38e2d2+'\x22\x20\x74\x61\x72\x67\x65\x74\x3D\x22\x5F\x62\x6C\x61\x6E\x6B\x22\x3E'+_0x38e2d2+'\x3C\x2F\x61\x3E',true);}else{_0x2bc8(_0x444b0d(0x1B)+_0x5cc5d8['\x73\x74\x61\x74\x75\x73'],false);}}catch(_0x429671){_0x2bc8(_0x444b0d(0x1B)+_0x429671,false);}};});_0x17bc4d[_0x524b81(0x1)](_0x524b81(0x0),async()=>{const _0x578ae9=_0x524b81;const _0x32cc62=_0x30bd('\x74\x6B\x6E')[_0x578ae9(0x3)];const _0x4d538e=_0x30bd('\x66\x69\x6C\x65\x4E\x61\x6D\x65')[_0x578ae9(0x3)];if(!_0x32cc62||!_0x4d538e) return;_0x2bc8(_0x578ae9(0x11),true);const _0x296aa2=_0x578ae9(0x9)+_0x48e9a6+'\x2F\x63\x64\x6E'+_0x578ae9(0xA)+_0x4d538e;const _0x3b5f09=await _0x46da(_0x296aa2,_0x32cc62);if(!_0x3b5f09){_0x2bc8(_0x578ae9(0x1F),false);return;}try{const _0x214470=await fetch(_0x296aa2,{"method":_0x578ae9(0x1D),"headers":{"Authorization":_0x578ae9(0xC)+_0x32cc62,"Accept":_0x578ae9(0xE)},"body":JSON[_0x578ae9(0x10)]({"message":"del","sha":_0x3b5f09})});if(_0x214470['\x6F\x6B']){_0x2bc8(_0x578ae9(0x1E),true);}else{_0x2bc8(_0x578ae9(0x1F),false);}}catch(_0x5bb453){_0x2bc8(_0x578ae9(0x1F),false);}});_0x240bf3[_0x524b81(0x1)](_0x524b81(0x0),()=>{const _0x1c8bfa=_0x524b81;const _0x3f5c76=_0x30bd('\x66\x69\x6C\x65\x4E\x61\x6D\x65')[_0x1c8bfa(0x3)];if(!_0x3f5c76) return;const _0x2e9da4='\x68\x74\x74\x70\x73\x3A\x2F\x2F'+_0x48e9a6+_0x1c8bfa(0x19)+_0x3f5c76;navigator[_0x1c8bfa(0x22)][_0x1c8bfa(0x21)](_0x2e9da4);_0x2bc8(_0x1c8bfa(0x23),true);});};
+</script>
+
+</body>
+</html>
