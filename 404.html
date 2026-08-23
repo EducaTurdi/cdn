@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+</head>
+<body>
+    <script>
+        // Remove todo o HTML padrão da página para exibir apenas o texto XML puro
+        document.documentElement.innerHTML = "";
+        
+        const xmlTemplate = `<?xml version="1.0" encoding="UTF-8"?>
+<Error>
+    <Code>AccessDenied</Code>
+    <Message>Access Denied</Message>
+    <RequestId>CDN-EDUCATURDI-ERROR</RequestId>
+    <HostId>educaturdi.github.io</HostId>
+</Error>`;
+
+        // Cria um elemento de texto pré-formatado para simular a resposta do navegador
+        const pre = document.createElement("pre");
+        pre.style.wordWrap = "break-word";
+        pre.style.whiteSpace = "pre-wrap";
+        pre.textContent = xmlTemplate;
+        document.body.appendChild(pre);
+        
+        // Define o título da aba do navegador
+        document.title = "AccessDenied";
+    </script>
+</body>
+</html>
