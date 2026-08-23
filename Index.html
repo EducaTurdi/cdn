@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CDN Painel</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #0d1117; color: #c9d1d9; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .container { background-color: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; width: 100%; max-width: 500px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: none; }
+        .lock-screen { background-color: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 30px; width: 100%; max-width: 350px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); text-align: center; margin-top: 10%; }
+        h2 { margin-top: 0; color: #58a6ff; text-align: center; }
+        .field { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-size: 14px; font-weight: 600; }
+        input[type="text"], input[type="password"], input[type="file"] { width: 100%; padding: 10px; border: 1px solid #30363d; border-radius: 6px; background-color: #0d1117; color: #c9d1d9; box-sizing: border-box; text-align: center; }
+        button { width: 100%; padding: 10px; background-color: #238636; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px; margin-top: 5px; }
+        button:hover { background-color: #2ea44f; }
+        .btn-del { background-color: #da3637; }
+        .btn-del:hover { background-color: #b62b2c; }
+        .btn-copy { background-color: #21262d; border: 1px solid #30363d; }
+        .btn-copy:hover { background-color: #30363d; }
+        .status { margin-top: 15px; padding: 10px; border-radius: 6px; display: none; font-size: 13px; text-align: center; word-break: break-all; }
+        .success { background-color: rgba(56,139,60,0.15); color: #3fb950; border: 1px solid rgba(56,139,60,0.4); }
+        .error { background-color: rgba(248,81,73,0.15); color: #f85149; border: 1px solid rgba(248,81,73,0.4); }
+        hr { border: 0; border-top: 1px solid #30363d; margin: 20px 0; }
+    </style>
+</head>
+<body>
+
+<div id="gate" class="lock-screen">
+    <h2>SYSTEM LOCKED</h2>
+    <div class="field">
+        <input type="password" id="pass" placeholder="KEY...">
+        <button id="authBtn" style="margin-top: 15px; background-color: #1f6feb;">UNLOCK</button>
+    </div>
+</div>
+
+<div id="mainApp" class="container">
+    <h2>CDN Control Panel</h2>
+    <div class="field">
+        <label>Upload:</label>
+        <input type="file" id="fileInput">
+        <button id="upBtn">Upload</button>
+    </div>
+    <hr>
+    <div class="field">
+        <label>File:</label>
+        <input type="text" id="fileName" placeholder="...">
+        <button id="cpBtn" class="btn-copy">Copy</button>
+        <button id="delBtn" class="btn-del">Delete</button>
+    </div>
+    <div id="msg" class="status"></div>
+</div>
+
+<script>
+const _0x7a2c=['\x63\x6C\x69\x63\x6B','\x61\x64\x64\x45\x76\x65\x6E\x74\x4C\x69\x73\x74\x65\x6E\x65\x72','\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64','\x76\x61\x6C\x75\x65','\x66\x69\x6C\x65\x73','\x6E\x61\x6D\x65','\x73\x70\x6C\x69\x74','\x68\x74\x74\x70\x73\x3A\x2F\x2F\x61\x70\x69\x2E\x67\x69\x74\x68\x75\x62\x2E\x63\x6F\x6D\x2F\x72\x65\x70\x6F\x73\x2F','\x2F\x63\x6F\x6E\x74\x65\x6E\x74\x73\x2F','\x41\x75\x74\x68\x6F\x72\x69\x7A\x61\x74\x69\x6F\x6E','\x62\x65\x61\x72\x65\x72\x20','\x50\x55\x54','\x2E\x2E\x2E','\x73\x74\x79\x6C\x65','\x64\x69\x73\x70\x6C\x61\x79','\x62\x6C\x6F\x63\x6B','\x63\x6C\x61\x73\x73\x4E\x61\x6D\x65','\x73\x74\x61\x74\x75\x73\x20\x73\x75\x63\x63\x65\x73\x73','\x69\x6E\x6E\x65\x72\x48\x54\x4D\x4C','\x4F\x4B\x20\x3A\x20','\x2E\x67\x69\x74\x68\x75\x62\x2E\x69\x6F\x2F\x63\x64\x6E\x2F','\x45\x52\x52\x20\x3A\x20','\x6A\x73\x6F\x6E','\x44\x45\x4C\x45\x54\x45','\x44\x45\x4C\x20\x4F\x4B','\x6E\x61\x76\x69\x67\x61\x74\x6F\x72','\x43\x50\x59','\x6E\x6F\x6E\x65'];const _0x12b5=window;const _0x99dd=function(_0x3c1a8a){return document.getElementById(_0x3c1a8a);};function _0x88bb(_0x221371,_0x3bc141){const _0x16b08d=_0x12b5;const _0x4d326f=_0x99dd('msg');_0x4d326f.style.display='block';_0x4d326f.className=_0x3bc141?'status success':'status error';_0x4d326f.innerHTML=_0x221371;}async function _0x33aa(_0x1a2b,_0x3c4d){try{const _0x2a=await fetch(_0x1a2b,{"headers":{"Authorization":"bearer "+_0x3c4d}});if(_0x2a.ok){const _0x1b=await _0x2a.json();return _0x1b.sha;}}catch(_0xe){}return null;}async function hash(_0x2b){const _0x5b=new TextEncoder().encode(_0x2b);const _0x1c=await crypto.subtle.digest('SHA-256',_0x5b);return Array.from(new Uint8Array(_0x1c)).map(_0x62=>_0x62.toString(16).padStart(2,'0')).join('');}
+
+const _密_ = "dFdaMXpVbEZWVTVZSlJGUGJGZDRXbU03ZDJ0OE8xem5SOGhGUmZuUkhmTFJoZ2hNVWhXTVVsdXFSMmxsTjVsM01ra01Xbmt6ZVhoemFIMEJDYUFJUFlCOWdfdGFmX2JodXRpZw==";
+const _解_ = () => atob(atob(_密_).split("").reverse().join(""));
+
+_0x12b5.onload=function(){const _0x48e9a6=window.location.hostname.split('.')[0];_0x99dd('authBtn').addEventListener('click',async()=>{const _0x3a=_0x99dd('pass').value;const _0x4b=await hash(_0x3a);if(_0x4b==='a25c0dbf7f1e599dfe99ec034840411c779efb1611a8e46c9d3828a4a7b49db'){_0x99dd('gate').style.display='none';_0x99dd('mainApp').style.display='block';}else{alert('NG');}});_0x99dd('upBtn').addEventListener('click',async()=>{const _0x590890=_解_();const _0x3b11fc=_0x99dd('fileInput').files[0];if(!_0x3b11fc) return;_0x88bb('...',true);const _0x4da918=new FileReader();_0x4da918.readAsDataURL(_0x3b11fc);_0x4da918.onload=async()=>{const _0x2284c1=_0x4da918.result.split(',')[1];const _0x5ca51d="https://github.com"+_0x48e9a6+"/cdn/contents/"+_0x3b11fc.name;const _0x5e0df7=await _0x33aa(_0x5ca51d,_0x590890);const _0x2642be={"message":"up","content":_0x2284c1};if(_0x5e0df7) _0x2642be.sha=_0x5e0df7;try{const _0x5cc5d8=await fetch(_0x5ca51d,{"method":"PUT","headers":{"Authorization":"bearer "+_0x590890,"Accept":"application/vnd.github+json"},"body":JSON.stringify(_0x2642be)});if(_0x5cc5d8.ok){const _0x38e2d2='https://'+_0x48e9a6+'.github.io/cdn/'+_0x3b11fc.name;_0x88bb('OK : <a href="'+_0x38e2d2+'" target="_blank">'+_0x38e2d2+'</a>',true);}else{_0x88bb('ERR : '+_0x5cc5d8.status,false);}}catch(_0x429671){_0x88bb('ERR',false);}};});_0x99dd('delBtn').addEventListener('click',async()=>{const _0x32cc62=_解_();const _0x4d538e=_0x99dd('fileName').value;if(!_0x4d538e) return;_0x88bb('...',true);const _0x296aa2="https://github.com"+_0x48e9a6+"/cdn/contents/"+_0x4d538e;const _0x3b5f09=await _0x33aa(_0x296aa2,_0x32cc62);if(!_0x3b5f09){_0x88bb('NG',false);return;}try{const _0x214470=await fetch(_0x296aa2,{"method":"DELETE","headers":{"Authorization":"bearer "+_0x32cc62,"Accept":"application/vnd.github+json"},"body":JSON.stringify({"message":"del","sha":_0x3b5f09})});if(_0x214470.ok){_0x88bb('DEL OK',true);}else{_0x88bb('NG',false);}}catch(_0x5bb453){_0x88bb('NG',false);}});_0x99dd('cpBtn').addEventListener('click',()=>{const _0x3f5c76=_0x99dd('fileName').value;if(!_0x3f5c76) return;const _0x2e9da4='https://'+_0x48e9a6+'.github.io/cdn/'+_0x3f5c76;navigator.clipboard.writeText(_0x2e9da4);_0x88bb('CPY',true);});};
+</script>
+
+</body>
+</html>
